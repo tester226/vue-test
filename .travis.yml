@@ -1,0 +1,28 @@
+dist: xenial
+language: node_js
+
+services:
+  - docker
+
+notifications:
+  email: false
+
+before_install:
+  - docker build -t vuejs/ci
+
+install:
+    - npm install
+
+cache:
+  directories:
+    - node_modules
+
+script:
+    - npm run lint
+    - npm run flow
+    - npm run test:types
+    - npm run test:cover
+    - if [[ -z $CI_PULL_REQUEST ]]; then ./node_modules/.bin/codecov fi
+    - npm run test:e2e -- --env phantomjs
+    - npm run test:ssr
+    - npm run test:weex

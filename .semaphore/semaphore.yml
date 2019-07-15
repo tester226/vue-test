@@ -1,0 +1,46 @@
+version: v1.0
+name: First pipeline example
+agent:
+  machine:
+    type: e1-standard-2
+  containers:
+    - name: my image
+      image: vuejs/ci
+
+
+blocks:
+  - name: "Install"
+    dependencies: []
+    task:
+      jobs:
+      - name: "install deps"
+        commands:
+          - checkout
+          - cache restore v1-vue-
+          - npm install
+          - cache store v1-vue- node_modules
+
+  - name: "Parallel Testing"
+    dependencies: ["Install"]
+    task:
+      prologue:
+        commands:
+          - checkout
+          - cache restore v1-vue-
+      jobs:
+      - name: "lint flow types"
+        commands:
+          - npm run lint
+          - npm run flow
+          - npm run test:types
+      - name: "test cover"
+        commands:
+          - npm run test:cover
+          - if [[ -z $CI_PULL_REQUEST ]]; then ./node_modules/.bin/codecov fi
+      - name: "test e2e"
+        commands:
+          - npm run test:e2e -- --env phantomjs
+      - name: "test ssr and week"
+        commands:
+          - npm run test:ssr
+          - npm run test:weex
