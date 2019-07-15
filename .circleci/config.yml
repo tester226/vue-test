@@ -49,6 +49,13 @@ jobs:
       - run: npm run test:ssr
       - run: npm run test:weex
 
+  build:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/project
+      - run: npm run build
+
 workflows:
   version: 2
   install-and-parallel-test:
@@ -61,5 +68,8 @@ workflows:
           requires:
             - install
       - test-ssr-weex:
+          requires:
+            - install
+      - build:
           requires:
             - install

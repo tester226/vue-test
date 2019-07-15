@@ -36,3 +36,6 @@ blocks:
         commands:
           - npm run test:ssr
           - npm run test:weex
+      - name: "build"
+        commands:
+          - npm run build
