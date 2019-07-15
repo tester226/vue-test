@@ -54,9 +54,6 @@ workflows:
   install-and-parallel-test:
     jobs:
       - install
-      - test-cover:
-          requires:
-            - install
       - lint-flow-types:
           requires:
             - install
