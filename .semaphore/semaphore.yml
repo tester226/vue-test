@@ -34,7 +34,6 @@ blocks:
       - name: "test cover"
         commands:
           - npm run test:cover
-          - if [[ -z $CI_PULL_REQUEST ]]; then ./node_modules/.bin/codecov fi
       - name: "test e2e"
         commands:
           - npm run test:e2e -- --env phantomjs
