@@ -34,13 +34,6 @@ jobs:
       - run: npm run flow
       - run: npm run test:types
 
-  test-cover:
-    <<: *defaults
-    steps:
-      - attach_workspace:
-          at: ~/project
-      - run: npm run test:cover
-
   test-e2e:
     <<: *defaults
     steps:
