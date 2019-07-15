@@ -3,9 +3,7 @@ name: First pipeline example
 agent:
   machine:
     type: e1-standard-2
-  containers:
-    - name: my image
-      image: vuejs/ci
+    os_image: ubuntu1804
 
 
 blocks:
