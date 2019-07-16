@@ -14,11 +14,18 @@ cache:
   directories:
     - node_modules
 
+env:
+  matrix:
+    - TEST_CATEGORY=lint-flow-types
+    - TEST_CATEGORY=e2e
+    - TEST_CATEGORY=ssr-weex
+    - TEST_CATEGORY=build
+
+matrix:
+  fast_finish: true
+
 script:
-    - npm run lint
-    - npm run flow
-    - npm run test:types
-    - npm run test:e2e -- --env phantomjs
-    - npm run test:ssr
-    - npm run test:weex
-    - npm run build
+  - if [ $TEST_CATEGORY == 'lint-flow-types' ]; then npm run lint; npm run flow; npm run test:types; fi
+  - if [ $TEST_CATEGORY == 'e2e' ]; then npm run test:e2e -- --env phantomjs; fi
+  - if [ $TEST_CATEGORY == 'ssr-weex' ]; then npm run test:ssr; npm run test:weex; fi
+  - if [ $TEST_CATEGORY == 'build' ]; then npm run build; fi
